@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Navbar, Nav, Button } from "react-bootstrap";
+import LoginModal from "./LoginModal";
+import SigninModal from "./SigninModal";
 
 class AthenaNavbar extends Component {
     constructor(props) {
@@ -8,14 +10,31 @@ class AthenaNavbar extends Component {
         this.state = {
             login: false,
             signin: false
-        }
-        this.acessclick = this.acessclick.bind(this)
+        };
+        this.loginclick = this.loginclick.bind(this);
+        this.signinclick = this.signinclick.bind(this);
+        this.closemodal = this.closemodal.bind(this);
     }
 
-    acessclick() {
-        this.setState((state) => {
-            return {login: !this.state.login}
-        })
+    loginclick() {
+        this.setState((state) => ({
+            login: true,
+            signin: false
+        }));
+    }
+
+    signinclick() {
+        this.setState((state) => ({
+            login: false,
+            signin: true
+        }));
+    }
+
+    closemodal() {
+        this.setState((state) => ({
+            login: false,
+            signin: false
+        }));
     }
 
     render() {
@@ -27,7 +46,9 @@ class AthenaNavbar extends Component {
                     <Nav.Link href="#features">Features</Nav.Link>
                     <Nav.Link href="#pricing">Pricing</Nav.Link>
                 </Nav>
-                <Button variant="outline-light" onClick={this.acessclick()} >Access</Button>
+                <Button variant="outline-light" onClick={this.loginclick} >Access</Button>
+                <LoginModal show={this.state.login} closeModal={this.closemodal} signinModal={this.signinclick} />
+                <SigninModal show={this.state.signin} closeModal={this.closemodal} loginModal={this.loginclick} />
             </Navbar>
         )
     }
